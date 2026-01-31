@@ -54,6 +54,12 @@ public class BroadcastFeature extends FeatureBase {
   private void announce() {
     if (!getBroadcastConfig().isAnnounceEnabled()) return;
     if (getBroadcastConfig().getAnnounceMessages().isEmpty()) return;
+
+    if (Bukkit.getOnlinePlayers().isEmpty()) {
+      lastAnnounce = Instant.now();
+      return;
+    }
+
     Duration timeSince = Duration.between(lastAnnounce, Instant.now());
     List<Component> messages = getBroadcastConfig().getAnnounceMessages();
 
