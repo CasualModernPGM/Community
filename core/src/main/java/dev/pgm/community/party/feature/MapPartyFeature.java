@@ -320,21 +320,18 @@ public class MapPartyFeature extends FeatureBase {
     }
 
     party.setLength(timeLimit);
-    MapPartyMessages.broadcastHostAction(
-        viewer.getStyledName(),
-        text("set the event timelimit to"),
-        duration(party.getLength(), NamedTextColor.GREEN));
-    if (party.isRunning()) {
+    if (!party.isRunning()) {
       MapPartyMessages.broadcastHostAction(
           viewer.getStyledName(),
-          text()
-              .append(text("The event will now end in "))
-              .append(
-                  duration(timeLimit.minus(Duration.between(party.getStartTime(), Instant.now())))
-                      .color(NamedTextColor.GREEN))
-              .color(NamedTextColor.GRAY)
-              .build());
-      ;
+          text("set the event time limit to"),
+          duration(party.getLength(), NamedTextColor.GREEN));
+    } else {
+      MapPartyMessages.broadcastHostAction(
+          viewer.getStyledName(),
+          text("has updated the event time limit to"),
+          duration(timeLimit.minus(Duration.between(party.getStartTime(), Instant.now())))
+              .color(NamedTextColor.GREEN)
+              .append(text(" from now").color(NamedTextColor.GRAY)));
     }
   }
 
